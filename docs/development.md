@@ -1,3 +1,9 @@
 # Developing on pagekit
 
-This is a great place to explain how to get started developing on this project.
+The repository root is the Go package `github.com/giantswarm/pagekit`. There is no `main` package and no binary.
+
+Run the tests the way CI does:
+
+```bash
+make test
+```
