@@ -13,6 +13,8 @@ The design is the source of truth. Each kind of consumer gets it in the form it 
 
 Logos come from [giantswarm/brand](https://github.com/giantswarm/brand).
 
+What every page has to meet (responsive, light and dark, accessible, no external requests, …) is listed in [docs/requirements.md](docs/requirements.md).
+
 ## Status
 
 Early. The repository has the module structure but no pages or API yet. The survey of existing pages and the plan are tracked in giantswarm/giantswarm#38589.
