@@ -2,6 +2,10 @@
 
 Go module and HTML templates for sign-in pages, interstitials and other system pages wearing the Giant Swarm brand.
 
+| Success, light mode | Error, dark mode |
+|---|---|
+| ![Success page in light mode: the heading "Signed in", the line "GitHub is now connected", the hint to close the tab and return to Cursor, and the Giant Swarm logo](https://github.com/user-attachments/assets/da281e4b-c578-4601-b4e2-3820cf8174e0) | ![Error page in dark mode: the heading "Sign-in failed", the line "GitHub could not be connected", what to do next, the error code and a reference, and the white Giant Swarm logo](https://github.com/user-attachments/assets/6211d81c-0331-4463-82f5-5e178bdd6719) |
+
 ## What belongs here
 
 Pages that a service or proxy serves on its own, outside a product UI: the page a browser shows after a sign-in, device-code entry, consent screens, error pages, and later perhaps maintenance or "not found" pages. Application UIs are out of scope.
