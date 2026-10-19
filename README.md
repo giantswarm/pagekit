@@ -17,11 +17,27 @@ What every page has to meet (responsive, light and dark, accessible, no external
 
 ## Status
 
-Early. The repository has the module structure but no pages or API yet. The survey of existing pages and the plan are tracked in giantswarm/giantswarm#38589.
+Early. pagekit renders success and error result pages through `pagekit.Render`. Device-code entry, consent and the files for Dex follow. The survey of existing pages and the plan are tracked in giantswarm/giantswarm#38589.
+
+## Usage
+
+```go
+pagekit.Render(w, http.StatusBadRequest, pagekit.Page{
+	Title:     "Sign-in to GitHub failed",
+	Heading:   "Sign-in failed",
+	Summary:   "GitHub could not be connected",
+	Message:   "The sign-in link expired before it was used. Start the sign-in again from Cursor.",
+	Detail:    "state_expired",
+	Reference: requestID,
+})
+```
+
+A status of 400 or more shows the page as an error. `Render` sets a Content Security Policy that allows only the page's own inline stylesheet and `data:` images, so the page loads nothing from the network.
 
 ## Layout
 
 The module lives at the repository root, and the root directory is the importable package `pagekit`. Keep it that way:
 
 - Go's `//go:embed` can only reach files inside the module, so the design sources must sit under the root module.
+- The design sources sit in [`design/`](design/): the page template, the stylesheet and the logos.
 - The generated CI (`architect/go-build`), the Makefile and the release tags (`vX.Y.Z`) all assume a module at the root.
