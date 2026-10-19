@@ -5,7 +5,7 @@ Every page pagekit provides meets these requirements. The survey of the existing
 1. **Responsive.** Pages work from phone width (320 CSS px) to desktop without horizontal scrolling.
 2. **Follows the light/dark preference.** Colours follow `prefers-color-scheme`. There is no toggle.
 3. **Carries the Giant Swarm logo.** The artwork comes from [giantswarm/brand](https://github.com/giantswarm/brand).
-4. **Loads and renders fast.** A page makes no external requests: CSS and SVG are inline, and text uses the system font stack. This also allows a strict Content Security Policy and lets pages work on loopback servers and air-gapped installations.
+4. **Loads and renders fast.** A page makes no external requests: CSS is inline, images are inline SVG or `data:` URIs, and text uses the system font stack. This also allows a strict Content Security Policy and lets pages work on loopback servers and air-gapped installations.
 5. **WCAG 2.2 AA.** In particular:
    - text and controls meet the AA contrast ratios in both light and dark mode
    - focus is always visible

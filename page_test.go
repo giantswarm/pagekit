@@ -118,7 +118,6 @@ func TestRender_EscapesText(t *testing.T) {
 	rec := httptest.NewRecorder()
 
 	pagekit.Render(rec, http.StatusBadRequest, pagekit.Page{
-		Kind:    pagekit.Error,
 		Heading: signInFailed,
 		Message: `<a href="https://evil.example">Click</a>`,
 		Detail:  "<script>alert(1)</script>",
@@ -141,4 +140,47 @@ func TestRender_LoadsNothingExternal(t *testing.T) {
 		require.True(t, strings.HasPrefix(ref[1], "data:"), "page references %.60q", ref[1])
 	}
 	require.Contains(t, rec.Body.String(), `alt="Giant Swarm"`)
+}
+
+func TestRender_StylesErrorStatusAsError(t *testing.T) {
+	testCases := []struct {
+		status    int
+		wantError bool
+	}{
+		{status: http.StatusOK, wantError: false},
+		{status: http.StatusFound, wantError: false},
+		{status: http.StatusBadRequest, wantError: true},
+		{status: http.StatusBadGateway, wantError: true},
+	}
+
+	for _, tc := range testCases {
+		t.Run(http.StatusText(tc.status), func(t *testing.T) {
+			rec := httptest.NewRecorder()
+
+			pagekit.Render(rec, tc.status, pagekit.Page{Heading: "Heading"})
+
+			require.Equal(t, tc.wantError, strings.Contains(rec.Body.String(), `<body class="error">`))
+		})
+	}
+}
+
+func TestRender_FallsBackToHeadingForStatus(t *testing.T) {
+	testCases := []struct {
+		status  int
+		heading string
+	}{
+		{status: http.StatusOK, heading: "Done"},
+		{status: http.StatusBadRequest, heading: "Something went wrong"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(http.StatusText(tc.status), func(t *testing.T) {
+			rec := httptest.NewRecorder()
+
+			pagekit.Render(rec, tc.status, pagekit.Page{Message: "You can close this tab."})
+
+			require.Contains(t, rec.Body.String(), "<h1>"+tc.heading+"</h1>")
+			require.Contains(t, rec.Body.String(), "<title>"+tc.heading+"</title>")
+		})
+	}
 }

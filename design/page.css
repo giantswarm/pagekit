@@ -8,9 +8,8 @@
   --text-muted: #5f5f64;
   /* 3.47:1 on --bg: headings of 24px and more only. */
   --accent: #d46200;
-  /* Links, focus rings, and button backgrounds under --on-accent text. */
+  /* 4.64:1 on --bg: focus rings and accents smaller than a heading. */
   --accent-strong: #b35300;
-  --on-accent: #ffffff;
   --error: #b42318;
   --border: #d2d2d7;
 }
@@ -23,7 +22,6 @@
     --text-muted: #8eafc6;
     --accent: #009fff;
     --accent-strong: #009fff;
-    --on-accent: #002645;
     --error: #ff8f80;
     --border: #1a4a72;
   }
@@ -88,6 +86,7 @@ p {
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--text-muted);
+  overflow-wrap: anywhere;
 }
 
 .detail {
@@ -106,10 +105,6 @@ p {
 code {
   font-family: var(--font-mono);
   font-size: inherit;
-}
-
-a {
-  color: var(--accent-strong);
 }
 
 :focus-visible {

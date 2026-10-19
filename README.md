@@ -23,7 +23,6 @@ Early. pagekit renders success and error result pages through `pagekit.Render`. 
 
 ```go
 pagekit.Render(w, http.StatusBadRequest, pagekit.Page{
-	Kind:      pagekit.Error,
 	Title:     "Sign-in to GitHub failed",
 	Heading:   "Sign-in failed",
 	Summary:   "GitHub could not be connected",
@@ -33,7 +32,7 @@ pagekit.Render(w, http.StatusBadRequest, pagekit.Page{
 })
 ```
 
-`Render` sets a Content Security Policy that allows only the page's own inline stylesheet and `data:` images, so the page loads nothing from the network.
+A status of 400 or more shows the page as an error. `Render` sets a Content Security Policy that allows only the page's own inline stylesheet and `data:` images, so the page loads nothing from the network.
 
 ## Layout
 
