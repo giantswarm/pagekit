@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Make the repository root the importable Go package `github.com/giantswarm/pagekit` instead of a `main` package.
+
 
 
 [Unreleased]: https://github.com/giantswarm/pagekit/tree/main
