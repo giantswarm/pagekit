@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `Render` also sends `X-Frame-Options: DENY`, so browsers that ignore the policy's `frame-ancestors` don't show the pages in a frame either.
+
+## [0.1.0] - 2026-10-19
+
 ### Added
 
 - Add `Render`, which writes a success or error result page with the Giant Swarm logo, light and dark mode, and a strict Content Security Policy.
@@ -19,4 +25,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]: https://github.com/giantswarm/pagekit/tree/main
+[Unreleased]: https://github.com/giantswarm/pagekit/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/giantswarm/pagekit/releases/tag/v0.1.0
