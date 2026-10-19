@@ -54,6 +54,7 @@ func TestRender_SetsStrictContentSecurityPolicy(t *testing.T) {
 		"default-src 'none'; style-src "+styleHash+"; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
 		rec.Header().Get("Content-Security-Policy"))
 	require.Equal(t, "nosniff", rec.Header().Get("X-Content-Type-Options"))
+	require.Equal(t, "DENY", rec.Header().Get("X-Frame-Options"))
 	require.Equal(t, "no-referrer", rec.Header().Get("Referrer-Policy"))
 	require.Equal(t, "no-store", rec.Header().Get("Cache-Control"))
 }

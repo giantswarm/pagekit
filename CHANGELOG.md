@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Make the repository root the importable Go package `github.com/giantswarm/pagekit` instead of a `main` package.
 
+### Fixed
+
+- `Render` also sends `X-Frame-Options: DENY`, so browsers that ignore the policy's `frame-ancestors` don't show the pages in a frame either.
+
 
 
 [Unreleased]: https://github.com/giantswarm/pagekit/tree/main

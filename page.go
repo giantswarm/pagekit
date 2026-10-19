@@ -89,6 +89,9 @@ func Render(w http.ResponseWriter, status int, p Page) {
 	h.Set("Content-Type", "text/html; charset=utf-8")
 	h.Set("Content-Security-Policy", contentSecurityPolicy)
 	h.Set("X-Content-Type-Options", "nosniff")
+	// frame-ancestors in the policy covers current browsers; this covers
+	// older ones.
+	h.Set("X-Frame-Options", "DENY")
 	h.Set("Referrer-Policy", "no-referrer")
 	h.Set("Cache-Control", "no-store")
 	w.WriteHeader(status)
