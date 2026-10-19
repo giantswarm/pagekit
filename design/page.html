@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>{{.Title}}</title>
+<link rel="icon" href="data:,">
+<style>{{.CSS}}</style>
+</head>
+<body{{if .Error}} class="error"{{end}}>
+<div class="page">
+<main>
+<h1>{{.Heading}}</h1>
+{{- with .Summary}}
+<p class="summary">{{.}}</p>
+{{- end}}
+{{- with .Message}}
+<p class="message">{{.}}</p>
+{{- end}}
+{{- if or .Detail .Reference}}
+<p class="detail">
+{{- with .Detail}}<code>{{.}}</code>{{end}}
+{{- if and .Detail .Reference}}<span aria-hidden="true"> · </span>{{end}}
+{{- with .Reference}}Reference <code>{{.}}</code>{{end -}}
+</p>
+{{- end}}
+</main>
+<footer>
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="{{.LogoDark}}">
+<img src="{{.Logo}}" alt="Giant Swarm" width="120" height="30">
+</picture>
+</footer>
+</div>
+</body>
+</html>

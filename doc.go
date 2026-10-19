@@ -8,5 +8,13 @@
 // at runtime. Consumers that are not Go programs, such as Dex, are meant to
 // take the same sources as files.
 //
-// The package has no API yet; see the README for the plan.
+// Render writes a result page, such as the page a browser shows after a
+// sign-in:
+//
+//	pagekit.Render(w, http.StatusOK, pagekit.Page{
+//		Title:   "Signed in to GitHub",
+//		Heading: "Signed in",
+//		Summary: "GitHub is now connected",
+//		Message: "You can close this tab and return to Cursor.",
+//	})
 package pagekit

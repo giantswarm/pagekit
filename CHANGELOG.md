@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `Render`, which writes a success or error result page with the Giant Swarm logo, light and dark mode, and a strict Content Security Policy.
+
 ### Changed
 
 - Make the repository root the importable Go package `github.com/giantswarm/pagekit` instead of a `main` package.
