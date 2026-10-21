@@ -36,7 +36,7 @@ pagekit.Render(w, http.StatusBadRequest, pagekit.Page{
 })
 ```
 
-A status of 400 or more shows the page as an error. `Render` sets a Content Security Policy that allows only the page's own inline stylesheet and `data:` images, so the page loads nothing from the network.
+A status of 400 or more shows the page as an error. Pass a callback's OAuth `error` parameter through `pagekit.OAuthErrorCode` before showing it: it keeps only the error codes the specifications define, since anyone can put text of their choosing into a callback URL. `Render` sets a Content Security Policy that allows only the page's own inline stylesheet and `data:` images, so the page loads nothing from the network.
 
 ## Layout
 
