@@ -2,28 +2,48 @@
   color-scheme: light dark;
   --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
-  --bg: #f5f5f7;
+  /* Giant Swarm White, the pale-blue ground used across giantswarm.io. */
+  --bg: #f0f7f9;
   --surface: #ffffff;
-  --text: #1d1d1f;
-  --text-muted: #5f5f64;
-  /* 3.47:1 on --bg: headings of 24px and more only. */
-  --accent: #d46200;
-  /* 4.64:1 on --bg: focus rings and accents smaller than a heading. */
-  --accent-strong: #b35300;
-  --error: #b42318;
-  --border: #d2d2d7;
+  /* Loom heading colour. 14.58:1 on --bg. */
+  --text: #1D232C;
+  /* Loom body colour. 4.93:1 on --bg, 5.34:1 on --surface - the lightest
+     that still clears AA for 13-15px text. Loom's own --color-fg-muted
+     (#727F8C) is 3.78:1 here and cannot be used. */
+  --text-muted: #616C7A;
+  /* Headings are neutral: these pages carry no brand colour except the
+     logo and the error state. */
+  --accent: #1D232C;
+  /* Blue, the interactive signal across Loom: focus rings, form
+     controls, checkmarks. 3.64:1 on --bg. */
+  --accent-strong: #007CFF;
+  /* Coral. One value in both modes - two different reds read as random
+     rather than as one brand colour. 3.13:1 on --bg, 4.55:1 on the dark
+     ground, so it clears the 3:1 floor for headings in both. */
+  --error: #f45350;
+  --border: #e3e6ec;
+  /* Focus halo, 15% of --accent-strong. */
+  --halo: rgba(0, 124, 255, 0.15);
+  /* Brand gradient. Primary actions only. */
+  --gradient-cta: linear-gradient(111.02deg, #ff7700, #f65954);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Giant Swarm Blue. */
     --bg: #002645;
+    /* Elevated surface. Loom has no token for this - its dark palette
+       only goes deeper than the ground, not lighter - so this value is
+       pagekit's own. */
     --surface: #0a3560;
-    --text: #f5f5f7;
-    --text-muted: #8eafc6;
-    --accent: #009fff;
+    --text: #ffffff;
+    /* Loom's --color-fg-muted-on-dark. 7.38:1 on --bg. */
+    --text-muted: #A8B5C2;
+    --accent: #ffffff;
     --accent-strong: #009fff;
-    --error: #ff8f80;
-    --border: #1a4a72;
+    --error: #f45350;
+    --border: rgba(255, 255, 255, 0.14);
+    --halo: rgba(0, 159, 255, 0.22);
   }
 }
 
@@ -138,4 +158,344 @@ footer img {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ============================================================
+   COMPONENTS FOR THE PAGES THAT ASK FOR INPUT
+
+   These styles land ahead of the markup that uses them, so the
+   connector, device-code and consent screens match the agreed design
+   the moment they are built. Nothing on the result pages uses them.
+
+   Each block states the markup it expects. Icons are inline SVG from
+   Lucide (24x24 viewBox, stroke="currentColor", round caps) - CSS
+   cannot carry them, so they have to come from the template.
+   ============================================================ */
+
+/* ---- Buttons --------------------------------------------------
+   <button class="btn btn--primary">Continue</button>
+   <button class="btn btn--secondary">Cancel</button>
+
+   Primary is the brand gradient with a white label. That label is
+   2.66:1 at the orange end, below the 4.5:1 AA wants for control text.
+   It is deliberate: the gradient is Giant Swarm's mark for a primary
+   action and its label is white by convention. Flagged rather than
+   hidden - a dark label would pass at 5.94:1 if that is preferred.
+
+   Secondary borrows currentColor, so it works on both grounds without
+   a second variant. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.9rem;
+  padding: 0 1.5rem;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.btn--primary {
+  background: var(--gradient-cta);
+  color: #fff;
+  transition: filter 0.15s ease;
+}
+
+.btn--primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+  opacity: 0.85;
+}
+
+/* ---- Device code field ----------------------------------------
+   <div class="field">
+     <label for="code" class="sr-only">Device code</label>
+     <div class="combo">            <!-- add combo--invalid when rejected -->
+       <input id="code" placeholder="XXXX-XXXX" autocomplete="off">
+       <button class="btn btn--primary">
+         <span class="sr-only">Continue</span>
+         <svg …>  <!-- Lucide arrow-right, 20px -->
+       </button>
+     </div>
+     <p class="inline-error"><svg …>…</svg><span>message</span></p>
+   </div>
+
+   The field and the action are two separate pills. An outlined
+   container holding a filled pill reads as an iOS segmented control,
+   so there is no container: the field carries its own border and the
+   action is a circle beside it.
+
+   The label is visually hidden - the heading and message already say
+   what the field is, and the placeholder carries the format - but it
+   stays in the DOM, because every input needs a label.
+
+   The action is icon-only on desktop and 49.6px square, clearing the
+   44px touch target. Below 32rem the pair stacks and the icon is
+   swapped for the visible label: a full-width button showing only an
+   arrow says nothing. */
+.field {
+  width: min(28rem, 100%);
+  margin: 1.5rem auto;
+  text-align: center;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.combo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.combo input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 3.1rem;
+  padding: 0 1.4rem;
+  box-sizing: border-box;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 1.0625rem;
+  letter-spacing: 0.12em;
+  text-align: center;
+  outline: none;
+}
+
+.combo input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* Border plus a tight halo, not an outline ring. A ring at an offset
+   on top of a border change reads as two concentric outlines. */
+.combo input:focus-visible {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px var(--halo);
+}
+
+.combo--invalid input {
+  border-color: var(--error);
+}
+
+.combo .btn {
+  flex: 0 0 auto;
+  width: 3.1rem;
+  height: 3.1rem;
+  padding: 0;
+  border-radius: 999px;
+}
+
+.inline-error {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0.6rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--error);
+  text-align: left;
+}
+
+.inline-error svg {
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 32rem) {
+  .combo {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .combo input,
+  .combo .btn {
+    height: 3.25rem;
+  }
+
+  .combo .btn {
+    width: 100%;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+  }
+
+  .combo .btn svg {
+    display: none;
+  }
+
+  .combo .btn .sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+/* ---- Connector list -------------------------------------------
+   <div class="rows">
+     <a class="row" href="…">
+       <span class="row__icon"><svg …></svg></span>   <!-- Lucide house / user-round, 18px -->
+       <span class="row__text">
+         <span class="row__name">Customer connector</span>
+         <span class="row__id">customer-ad</span>
+       </span>
+       <span class="row__go"><svg …></svg></span>     <!-- Lucide chevron-right, 16px -->
+     </a>
+   </div>
+
+   1.5px borders: at this size a 1px border reads as a hairline and the
+   hover is easy to miss. The width stays constant and only the colour
+   changes, so the row never shifts under the cursor. The connector id
+   is mono, echoing the reference code on the error page - both are
+   machine identifiers. */
+.rows {
+  display: grid;
+  gap: 0.6rem;
+  width: min(28rem, 100%);
+  margin: 1.5rem auto;
+  text-align: left;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.row:hover {
+  border-color: var(--accent-strong);
+}
+
+.row__icon {
+  display: flex;
+  flex: 0 0 auto;
+  color: var(--text-muted);
+}
+
+.row__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.row__name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.row__id {
+  display: block;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row__go {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+}
+
+/* ---- Consent screen -------------------------------------------
+   <p class="message"><span class="app">muster</span> would like to</p>
+   <div class="measure">
+     <ul class="scopes">
+       <li><svg …></svg><span>View basic profile information</span></li>
+     </ul>
+     <p class="warn">Only continue if you started this sign-in yourself.</p>
+     <div class="actions">
+       <button class="btn btn--secondary">Cancel</button>
+       <button class="btn btn--primary">Grant access</button>
+     </div>
+   </div>
+
+   The interactive block sits in a narrower column than the prose above
+   it. Cancel and the primary action are a two-column grid, so they stay
+   equal whatever the labels say. Checkmarks are blue: they are UI
+   affirmation, not brand decoration. */
+.measure {
+  width: min(24rem, 100%);
+  margin-inline: auto;
+}
+
+.scopes {
+  margin: 1.25rem 0 0;
+  padding: 0.25rem 1.1rem;
+  list-style: none;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  text-align: left;
+}
+
+.scopes li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.scopes li + li {
+  border-top: 1px solid var(--border);
+}
+
+.scopes svg {
+  flex: 0 0 auto;
+  color: var(--accent-strong);
+}
+
+.warn {
+  margin: 1.1rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  opacity: 0.9;
+}
+
+.app {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
 }
