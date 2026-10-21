@@ -38,6 +38,13 @@ html {
 
 body {
   margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  /* Rows for elements extensions add to body stay as small as their content. */
+  grid-template-rows: 1fr;
+  place-items: center;
+  padding: 3rem 1rem;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
@@ -45,21 +52,10 @@ body {
   line-height: 1.5;
 }
 
-/* The page centres itself rather than through body, so elements that
-   browser extensions add to body don't move it. */
 .page {
-  min-height: 100vh;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1rem;
-  text-align: center;
-}
-
-.page > * {
+  grid-row: 1;
   width: min(30rem, 100%);
+  text-align: center;
 }
 
 h1 {

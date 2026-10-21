@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- The page stays centred when a browser extension adds elements to `<body>`, as Automa, Grammarly and password managers do. `<body>` centred its children as a grid, so an added element got a grid row of its own and pushed the content up; the page wrapper centres the content itself now.
+- The page stays centred when a browser extension adds an element to `<body>`, as Automa, Grammarly and password managers do. The element got a grid row of its own that took half the free space, so the content jumped up. The page's row takes all free space now, and an added element's row is only as tall as the element: an empty one, like Automa's, moves nothing, and one with height moves the content by half of it, wherever in `<body>` it is added.
 
 ## [0.2.0] - 2026-10-21
 
