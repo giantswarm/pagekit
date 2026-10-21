@@ -41,6 +41,8 @@ body {
   min-height: 100vh;
   min-height: 100svh;
   display: grid;
+  /* Rows for elements extensions add to body stay as small as their content. */
+  grid-template-rows: 1fr;
   place-items: center;
   padding: 3rem 1rem;
   background: var(--bg);
@@ -51,6 +53,7 @@ body {
 }
 
 .page {
+  grid-row: 1;
   width: min(30rem, 100%);
   text-align: center;
 }
