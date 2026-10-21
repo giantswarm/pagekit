@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The page stays centred when a browser extension adds elements to `<body>`, as Automa, Grammarly and password managers do. `<body>` centred its children as a grid, so an added element got a grid row of its own and pushed the content up; the page wrapper centres the content itself now.
+
 ### Added
 
 - `OAuthErrorCode`, which keeps an authorization response's error code only when the IANA OAuth Extensions Error Registry lists it for the authorization endpoint (or it is RFC 8707's `invalid_target`), so a page can show it without showing text a third party put into the callback URL.
