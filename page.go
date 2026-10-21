@@ -28,7 +28,8 @@ type Page struct {
 	// return to Cursor."
 	Message string
 	// Detail is a technical hint for support, such as an error code. It is
-	// shown in monospace.
+	// shown in monospace. Pass an OAuth callback's error parameter through
+	// OAuthErrorCode first.
 	Detail string
 	// Reference is a code the person can pass on to support, such as a
 	// request ID that also appears in the logs.
