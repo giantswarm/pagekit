@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- The pages now use the Giant Swarm colours from giantswarm.io: a pale-blue ground in light mode, Giant Swarm Blue in dark, with headings in the body text colour and one coral for errors in both modes. Services embedding pagekit will see the new look on their next update.
+
+### Added
+
+- `docs/components.md`, with the styles and markup for the connector, device-code and consent pages, so those pages match the agreed design when they are built.
+
 ### Fixed
 
 - The page stays centred when a browser extension adds an element to `<body>`, as Automa, Grammarly and password managers do. The element got a grid row of its own that took half the free space, so the content jumped up. The page's row takes all free space now, and an added element's row is only as tall as the element: an empty one, like Automa's, moves nothing, and one with height moves the content by half of it, wherever in `<body>` it is added.
