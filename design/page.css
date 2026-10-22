@@ -2,28 +2,62 @@
   color-scheme: light dark;
   --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
-  --bg: #f5f5f7;
+  /* Giant Swarm White, the pale-blue ground used across giantswarm.io. */
+  --bg: #f0f7f9;
   --surface: #ffffff;
-  --text: #1d1d1f;
-  --text-muted: #5f5f64;
-  /* 3.47:1 on --bg: headings of 24px and more only. */
-  --accent: #d46200;
-  /* 4.64:1 on --bg: focus rings and accents smaller than a heading. */
-  --accent-strong: #b35300;
-  --error: #b42318;
-  --border: #d2d2d7;
+  /* Loom heading colour. 14.58:1 on --bg. */
+  --text: #1D232C;
+  /* Loom body colour. 4.93:1 on --bg, 5.34:1 on --surface - the lightest
+     that still clears AA for 13-15px text. Loom's own --color-fg-muted
+     (#727F8C) is 3.78:1 here and cannot be used. */
+  --text-muted: #616C7A;
+  /* Headings are neutral: these pages carry no brand colour except the
+     logo and the error state. Follows --text so the two stay linked. */
+  --accent: var(--text);
+  /* Blue, the interactive signal across Loom: focus rings, form
+     controls, checkmarks. 3.64:1 on --bg. */
+  --accent-strong: #007CFF;
+  /* Coral. One value in both modes - two different reds read as random
+     rather than as one brand colour. 3.13:1 on --bg, 4.55:1 on the dark
+     ground, so it clears the 3:1 floor for headings in both. */
+  --error: #f45350;
+  /* Dividers and card edges, where a faint line is right. */
+  /* Error text below heading size. --error is tuned for the 40px
+     heading, where 3:1 is the bar; at 13px the bar is 4.5:1 and it
+     gives 3.1:1. This is 4.67:1 on --bg, 5.07:1 on --surface. */
+  --error-text: #c4403c;
+  --border: #e3e6ec;
+  /* Outlines of things people interact with - inputs above all. Needs
+     3:1 as a UI boundary; --border is 1.25:1 and invisible to anyone
+     with weaker eyesight. 3.00:1 on --bg, 3.25:1 on --surface. */
+  --border-interactive: #828faa;
+  /* Focus halo: a soft ring in --accent-strong, 15% here and 22% in
+     dark mode, where the ground needs more to read against. */
+  --halo: rgba(0, 124, 255, 0.15);
+  /* Brand gradient. Primary actions only. */
+  --gradient-cta: linear-gradient(111.02deg, #ff7700, #f65954);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Giant Swarm Blue. */
     --bg: #002645;
+    /* Elevated surface. Loom has no token for this - its dark palette
+       only goes deeper than the ground, not lighter - so this value is
+       pagekit's own. */
     --surface: #0a3560;
-    --text: #f5f5f7;
-    --text-muted: #8eafc6;
-    --accent: #009fff;
+    --text: #ffffff;
+    /* Loom's --color-fg-muted-on-dark. 7.38:1 on --bg. */
+    --text-muted: #A8B5C2;
     --accent-strong: #009fff;
-    --error: #ff8f80;
-    --border: #1a4a72;
+    --error: #f45350;
+    /* 4.55:1 on --bg - the heading coral already clears the small-text
+       bar against this ground, so no separate value is needed. */
+    --error-text: #f45350;
+    --border: rgba(255, 255, 255, 0.14);
+    /* 3.75:1 on --bg, 3.03:1 on --surface. */
+    --border-interactive: #4781ba;
+    --halo: rgba(0, 159, 255, 0.22);
   }
 }
 
